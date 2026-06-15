@@ -11,6 +11,11 @@
       "source": "dotclaude-${localWorkspaceFolderBasename}-${devcontainerId}",
       "target": "/home/devuser/.claude",
       "type": "volume"
+    },
+    {
+      "source": "workspace-venv-${localWorkspaceFolderBasename}-${devcontainerId}",
+      "target": "${containerWorkspaceFolder}/.venv",
+      "type": "volume"
     }
   ],
   "customizations": {
