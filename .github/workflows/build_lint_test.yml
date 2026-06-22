@@ -12,6 +12,19 @@ on:
 permissions: {}
 
 jobs:
+
+  licenses:
+
+    name: Check for REUSE specification compliance
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Chck REUSE compliance
+        uses: fsfe/reuse-action@v6
+
   build_lint_test:
 
     env:
