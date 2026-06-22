@@ -18,6 +18,9 @@ jobs:
     name: Check for REUSE specification compliance
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
