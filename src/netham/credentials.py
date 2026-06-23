@@ -72,6 +72,12 @@ def assume_role(config: Config, access_token: str, role_session_name: str) -> di
     :raises SystemExit: If the duration is below the minimum allowed value or
         the STS call fails.
     """
+    if config.assumed_role_duration_minutes is not None:
+        if config.assumed_role_duration_minutes < _MIN_DURATION_MINUTES:
+            sys.exit(
+                f"assumed_role_duration_minutes must be at least {_MIN_DURATION_MINUTES}"
+                f" (got {config.assumed_role_duration_minutes})."
+            )
     client = boto3.client(
         "sts",
         endpoint_url=config.sts_endpoint_url,
@@ -83,11 +89,6 @@ def assume_role(config: Config, access_token: str, role_session_name: str) -> di
         "WebIdentityToken": access_token,
     }
     if config.assumed_role_duration_minutes is not None:
-        if config.assumed_role_duration_minutes < _MIN_DURATION_MINUTES:
-            sys.exit(
-                f"assumed_role_duration_minutes must be at least {_MIN_DURATION_MINUTES}"
-                f" (got {config.assumed_role_duration_minutes})."
-            )
         kwargs["DurationSeconds"] = config.assumed_role_duration_minutes * 60
     try:
         response = client.assume_role_with_web_identity(**kwargs)
